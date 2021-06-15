@@ -56,7 +56,7 @@ class FFT(nn.Module):
         assert mask is None
         x = query
         x = x.permute((0, 1, 2))
-        print("x, ", x.shape)
+        # print("x, ", x.shape)
         B, N, C = x.shape
         # print("x ", x.shape)
         x = x.permute(0, 2, 1).contiguous()
@@ -72,7 +72,7 @@ class FFT(nn.Module):
         fft_hidden = torch.fft.fft(x, dim=2)
         fft_seq = torch.fft.fft(fft_hidden, dim=0)
 
-        return x
+        return fft_seq
 
 
 class FNetMix(nn.Module):
