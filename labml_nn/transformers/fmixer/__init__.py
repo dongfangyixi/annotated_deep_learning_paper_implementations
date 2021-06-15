@@ -58,7 +58,7 @@ class FFT(nn.Module):
         x = x.permute((1, 2, 0)).contiguous()
         # print("x, ", x.shape)
         B, C, N = x.shape
-        print("x ", x.shape)
+        # print("x ", x.shape)
         # x = x.permute(0, 2, 1).contiguous()
         x = torch.fft.ifft(x)
         # print("x", x.shape)
