@@ -45,19 +45,24 @@ from torch import nn
 
 
 class FFT(nn.Module):
-    def __init__(self, dim):
+    def __init__(self):
         super().__init__()
-        self.w = nn.Linear(196,1).weight#196 is the sequence length
+        self.w = nn.Linear(1, 16).weight#196 is the sequence length
+
     def forward(self, x):
         B, N, C = x.shape
+        print("x ", x.shape)
         x = x.permute(0,2,1).contiguous()
         x = torch.fft.ifft(x)
+        print("x", x.shape)
         w = self.w.unsqueeze(0).expand(B,C,N)
+        print("w", w.shape)
         xw = x.mul(w)
+        print("xw: ", xw.shape)
         xw = torch.fft.fft(xw).real
-        x = xw.permute(0,2,1).contiguous()
-        x = x.view(B,N,C)
-        return x#
+        x = xw.permute(0, 2, 1).contiguous()
+        x = x.view(B, N, C)
+        return x
 
 
 class FNetMix(nn.Module):
