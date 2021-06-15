@@ -67,6 +67,9 @@ class FFT(nn.Module):
         xw = torch.fft.fft(xw).real
         x = xw.permute(0, 2, 1).contiguous()
         x = x.view(B, N, C)
+        fft_hidden = torch.fft.fft(x, dim=2)
+        fft_seq = torch.fft.fft(fft_hidden, dim=0)
+
         return x
 
 
@@ -102,7 +105,7 @@ class FNetMix(nn.Module):
 
         # Assign to `x` for clarity
         x = query
-        print("x shape: ", x.shape)
+        # print("x shape: ", x.shape)
 
         # Apply the Fourier transform along the hidden (embedding) dimension
         # $$\mathcal{F}_\text{hidden} (x)$$
@@ -113,7 +116,7 @@ class FNetMix(nn.Module):
         # Apply the Fourier transform along the sequence dimension
         # $$\mathcal{F}_\text{seq} \big(\mathcal{F}_\text{hidden} (x) \big)$$
         fft_seq = torch.fft.fft(fft_hidden, dim=0)
-        print("fft swq: ", fft_seq.shape)
+        # print("fft swq: ", fft_seq.shape)
         # Get the real component
         # $$\mathcal{R}\big(\mathcal{F}_\text{seq} \big(\mathcal{F}_\text{hidden} (x) \big) \big)$$
         return torch.real(fft_seq)
