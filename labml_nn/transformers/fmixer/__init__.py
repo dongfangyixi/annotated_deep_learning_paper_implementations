@@ -101,7 +101,7 @@ class MIXFFT(nn.Module):
         # print("w", w.shape)
         xw = x.mul(w)
         # print("xw: ", xw.shape)
-        xw = torch.fft.fft(xw).real
+        xw = torch.fft.fft(xw)
         # x = xw.permute(0, 2, 1).contiguous()
         x = xw.view(B, N, C)
         x = x.permute((1, 0, 2)).contiguous()
@@ -139,12 +139,13 @@ class MIXFFT(nn.Module):
         assert mask is None
         x = query
         # channel mixer
-        x = self.channel_mixer(x)
-        x = self.token_mixer(x)
+
         fft_hidden = torch.fft.fft(x, dim=2)
         # Apply the Fourier transform along the sequence dimension
         # $$\mathcal{F}_\text{seq} \big(\mathcal{F}_\text{hidden} (x) \big)$$
-        x = torch.fft.fft(fft_hidden, dim=0).real
+        x = torch.fft.fft(fft_hidden, dim=0)
+        x = self.channel_mixer(x)
+        x = self.token_mixer(x)
         return x
 
 
