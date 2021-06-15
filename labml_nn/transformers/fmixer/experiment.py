@@ -123,6 +123,7 @@ def main():
 
         # Train for $32$ epochs
         'epochs': 32,
+        'batch_size': 32,
         # Switch between training and validation for $10$ times
         # per epoch
         'inner_iterations': 10,
