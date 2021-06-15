@@ -94,8 +94,8 @@ def fnet_mix():
     [transformer encoder layer](../models.html#TransformerLayer)
 .
     """
-    from labml_nn.transformers.fmixer import FNetMix
-    # from labml_nn.transformers.fmixer import FFT as FNetMix
+    # from labml_nn.transformers.fmixer import FNetMix
+    from labml_nn.transformers.fmixer import FFT as FNetMix
     return FNetMix()
 
 
