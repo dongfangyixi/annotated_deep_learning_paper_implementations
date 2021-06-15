@@ -140,10 +140,10 @@ class MIXFFT(nn.Module):
         x = query
         # channel mixer
 
-        fft_hidden = torch.fft.fft(x, dim=2)
+        x = torch.fft.fft(x, dim=2)
         # Apply the Fourier transform along the sequence dimension
         # $$\mathcal{F}_\text{seq} \big(\mathcal{F}_\text{hidden} (x) \big)$$
-        x = torch.fft.fft(fft_hidden, dim=0)
+        x = torch.fft.fft(x, dim=0)
         # x = self.channel_mixer(x)
         x = self.token_mixer(x)
         return x
