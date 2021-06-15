@@ -47,7 +47,7 @@ from torch import nn
 class FFT(nn.Module):
     def __init__(self):
         super().__init__()
-        self.w = nn.Linear(1, 16).weight#196 is the sequence length
+        self.w = nn.Linear(16, 1).weight#196 is the sequence length
 
     def forward(self, query: torch.Tensor, key: torch.Tensor, value: torch.Tensor, mask: Optional[torch.Tensor] = None):
         # $\text{query}$,$\text{key}$, and $\text{value}$ all should be equal to $x$ for token mixing
