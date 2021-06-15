@@ -47,7 +47,7 @@ from torch import nn
 class FFT(nn.Module):
     def __init__(self):
         super().__init__()
-        self.w = nn.Linear(16, 1).weight#196 is the sequence length
+        self.w = nn.Linear(1, 512).weight#196 is the sequence length
 
     def forward(self, query: torch.Tensor, key: torch.Tensor, value: torch.Tensor, mask: Optional[torch.Tensor] = None):
         # $\text{query}$,$\text{key}$, and $\text{value}$ all should be equal to $x$ for token mixing
@@ -55,12 +55,14 @@ class FFT(nn.Module):
         # Token mixing doesn't support masking. i.e. all tokens will see all other token embeddings.
         assert mask is None
         x = query
+        x = x.permute((0, 1, 2))
+        print("x, ", x.shape)
         B, N, C = x.shape
         # print("x ", x.shape)
-        x = x.permute(0,2,1).contiguous()
+        x = x.permute(0, 2, 1).contiguous()
         x = torch.fft.ifft(x)
         # print("x", x.shape)
-        w = self.w.unsqueeze(0).expand(B,C,N)
+        w = self.w.unsqueeze(0).expand(B, C, N)
         # print("w", w.shape)
         xw = x.mul(w)
         # print("xw: ", xw.shape)
