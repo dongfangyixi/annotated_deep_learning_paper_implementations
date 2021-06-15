@@ -56,14 +56,14 @@ class FFT(nn.Module):
         assert mask is None
         x = query
         B, N, C = x.shape
-        print("x ", x.shape)
+        # print("x ", x.shape)
         x = x.permute(0,2,1).contiguous()
         x = torch.fft.ifft(x)
-        print("x", x.shape)
+        # print("x", x.shape)
         w = self.w.unsqueeze(0).expand(B,C,N)
-        print("w", w.shape)
+        # print("w", w.shape)
         xw = x.mul(w)
-        print("xw: ", xw.shape)
+        # print("xw: ", xw.shape)
         xw = torch.fft.fft(xw).real
         x = xw.permute(0, 2, 1).contiguous()
         x = x.view(B, N, C)
