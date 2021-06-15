@@ -95,8 +95,8 @@ def fnet_mix():
 .
     """
     from labml_nn.transformers.fmixer import FNetMix
-    from labml_nn.transformers.fmixer import FFT
-    return FFT()
+    # from labml_nn.transformers.fmixer import FFT as FNetMix
+    return FNetMix()
 
 
 @option(Configs.model)

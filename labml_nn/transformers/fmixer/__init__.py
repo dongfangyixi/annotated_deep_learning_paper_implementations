@@ -116,6 +116,8 @@ class FNetMix(nn.Module):
         #
         # The output of the Fourier transform is a tensor of
         # [complex numbers](https://pytorch.org/docs/stable/complex_numbers.html).
+        x = torch.fft.ifft(x)
+        x = torch.fft.fft(x)
         fft_hidden = torch.fft.fft(x, dim=2)
         # Apply the Fourier transform along the sequence dimension
         # $$\mathcal{F}_\text{seq} \big(\mathcal{F}_\text{hidden} (x) \big)$$
