@@ -71,8 +71,8 @@ class FFT(nn.Module):
         x = xw.view(B, C, N)
         x = x.permute((2, 0, 1)).contiguous()
 
-        # fft_hidden = torch.fft.fft(x, dim=2)
-        fft_seq = torch.fft.fft(x, dim=0)
+        fft_hidden = torch.fft.fft(x, dim=2)
+        # fft_seq = torch.fft.fft(x, dim=0)
 
         return fft_seq
 
