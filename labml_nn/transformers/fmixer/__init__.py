@@ -55,7 +55,7 @@ class FFT(nn.Module):
         # Token mixing doesn't support masking. i.e. all tokens will see all other token embeddings.
         assert mask is None
         x = query
-        x = torch.fft.fft(x, dim=2).real
+        # x = torch.fft.fft(x, dim=2).real
 
         x = x.permute((1, 2, 0)).contiguous()
         # print("x, ", x.shape)
@@ -73,8 +73,8 @@ class FFT(nn.Module):
         x = xw.view(B, C, N)
         x = x.permute((2, 0, 1)).contiguous()
         #
-        # fft_hidden = torch.fft.fft(x, dim=2).real
-        # fft_seq = torch.fft.fft(fft_hidden, dim=0).real
+        fft_hidden = torch.fft.fft(x, dim=2).real
+        x = torch.fft.fft(fft_hidden, dim=0).real
         return x
 
 
