@@ -74,7 +74,7 @@ class FFT(nn.Module):
         fft_hidden = torch.fft.fft(x, dim=2)
         # fft_seq = torch.fft.fft(x, dim=0)
 
-        return fft_seq
+        return fft_hidden
 
 
 class FNetMix(nn.Module):
