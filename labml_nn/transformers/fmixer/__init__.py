@@ -49,7 +49,12 @@ class FFT(nn.Module):
         super().__init__()
         self.w = nn.Linear(1, 16).weight#196 is the sequence length
 
-    def forward(self, x):
+    def forward(self, query: torch.Tensor, key: torch.Tensor, value: torch.Tensor, mask: Optional[torch.Tensor] = None):
+        # $\text{query}$,$\text{key}$, and $\text{value}$ all should be equal to $x$ for token mixing
+        assert query is key and key is value
+        # Token mixing doesn't support masking. i.e. all tokens will see all other token embeddings.
+        assert mask is None
+        x = query
         B, N, C = x.shape
         print("x ", x.shape)
         x = x.permute(0,2,1).contiguous()
