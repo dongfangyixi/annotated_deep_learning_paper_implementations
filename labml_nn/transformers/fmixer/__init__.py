@@ -97,7 +97,7 @@ class MIXFFT(nn.Module):
         # x = x.permute(0, 2, 1).contiguous()
         x = torch.fft.ifft(x)
         # print("x", x.shape)
-        w = self.hidden_w.weight.unsqueeze(0).expand(B, C, N)
+        w = torch.fft.fft(self.hidden_w).weight.unsqueeze(0).expand(B, C, N)
         # print("w", w.shape)
         xw = x.mul(w)
         # print("xw: ", xw.shape)
@@ -122,7 +122,7 @@ class MIXFFT(nn.Module):
         # x = x.permute(0, 2, 1).contiguous()
         x = torch.fft.ifft(x)
         # print("x", x.shape)
-        w = self.token_w.weight.unsqueeze(0).expand(B, C, N)
+        w = torch.fft.fft(self.token_w.weight).unsqueeze(0).expand(B, C, N)
         # print("w", w.shape)
         xw = x.mul(w)
         # print("xw: ", xw.shape)
@@ -131,7 +131,6 @@ class MIXFFT(nn.Module):
         x = xw.view(B, C, N)
         x = x.permute((2, 0, 1)).contiguous()
         return x
-
 
     def forward(self, query: torch.Tensor, key: torch.Tensor, value: torch.Tensor, mask: Optional[torch.Tensor] = None):
         # $\text{query}$,$\text{key}$, and $\text{value}$ all should be equal to $x$ for token mixing
