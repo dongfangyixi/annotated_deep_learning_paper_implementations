@@ -141,7 +141,6 @@ def main():
         # Use [Noam optimizer](../../optimizers/noam.html)
         'optimizer.optimizer': 'Noam',
         'optimizer.learning_rate': 1.,
-        'dropout': 0.,
     })
 
     # Set models for saving and loading
