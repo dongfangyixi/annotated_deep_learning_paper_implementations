@@ -15,7 +15,7 @@ import torch
 import torchtext
 from torch import nn
 from torch.utils.data import DataLoader
-from torchtext import data
+from torchtext.data import Field
 from torchtext.vocab import Vocab
 
 from labml import lab, tracker, monit
@@ -322,8 +322,8 @@ def snli(c: NLPClassificationConfigs):
     This loads the AG News dataset and the set the values for
      `n_classes', `vocab`, `train_loader`, and `valid_loader`.
     """
-    TEXT = data.Field(lower=True, include_lengths=True, batch_first=True)
-    LABEL = data.Field(sequential=False)
+    TEXT = Field(lower=True, include_lengths=True, batch_first=True)
+    LABEL = Field(sequential=False)
     # Get training and validation datasets
     print("data saved at: ", str(lab.get_data_path() / 'snli'))
     train, valid, valid = torchtext.datasets.SNLI(root=str(lab.get_data_path() / 'snli')).split(TEXT, LABEL)
