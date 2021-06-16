@@ -156,18 +156,18 @@ def main():
 
         # Use [Noam optimizer](../../optimizers/noam.html)
         'optimizer.optimizer': 'Noam',
-        'optimizer.learning_rate': 1.
+        'optimizer.learning_rate': 1e-3,
     })
-    print("model: ", conf.model)
-    c = OptimizerConfigs()
-    optimizer = Noam(params=[{'params': conf.model.parameters(), 'lr': 1.},
-                {'params': conf.model.encoder.layers[0].self_attn.parameters(), 'lr': 1e-3}],
-                     lr=1., betas=c.betas, eps=c.eps,
-                     weight_decay=c.weight_decay_obj, amsgrad=c.amsgrad, warmup=c.warmup,
-                     d_model=512)
-
-    conf.optimizer = optimizer
-    print("optimizer: ", conf.optimizer)
+    # print("model: ", conf.model)
+    # c = OptimizerConfigs()
+    # optimizer = Noam(params=[{'params': conf.model.parameters(), 'lr': 1.},
+    #             {'params': conf.model.encoder.layers[0].self_attn.parameters(), 'lr': 1e-3}],
+    #                  lr=1., betas=c.betas, eps=c.eps,
+    #                  weight_decay=c.weight_decay_obj, amsgrad=c.amsgrad, warmup=c.warmup,
+    #                  d_model=512)
+    #
+    # conf.optimizer = optimizer
+    # print("optimizer: ", conf.optimizer)
 
     # exit(0)
     # Set models for saving and loading
