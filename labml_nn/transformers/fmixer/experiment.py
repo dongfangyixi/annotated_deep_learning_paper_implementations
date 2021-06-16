@@ -120,7 +120,8 @@ def main():
     # Create configs
     conf = Configs()
 
-    # Override configurations
+    print("Override configurations")
+
     experiment.configs(conf, {
         # Use world level tokenizer
         'tokenizer': 'basic_english',
