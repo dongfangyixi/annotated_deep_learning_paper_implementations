@@ -130,21 +130,22 @@ def _ada_belief_optimizer(c: OptimizerConfigs):
 @option(OptimizerConfigs.optimizer, 'Noamwlr')
 def _noam_optimizer(c: OptimizerConfigs):
     from labml_nn.optimizers.noam import Noam
+
+    return Noam(c.parameters,
+                lr=c.learning_rate, betas=c.betas, eps=c.eps,
+                weight_decay=c.weight_decay_obj, amsgrad=c.amsgrad, warmup=c.warmup,
+                d_model=c.d_model)
+
+
+@option(OptimizerConfigs.optimizer, 'Noam')
+def _noam_optimizer(c: OptimizerConfigs):
+    from labml_nn.optimizers.noam import Noam
     print("model: ", c)
     exit(0)
     return Noam(c.parameters,
                 lr=c.learning_rate, betas=c.betas, eps=c.eps,
                 weight_decay=c.weight_decay_obj, amsgrad=c.amsgrad, warmup=c.warmup,
                 d_model=c.d_model)
-#
-#
-# @option(OptimizerConfigs.optimizer, 'Noam')
-# def _noam_optimizer(c: OptimizerConfigs):
-#     from labml_nn.optimizers.noam import Noam
-#     return Noam(c.parameters,
-#                 lr=c.learning_rate, betas=c.betas, eps=c.eps,
-#                 weight_decay=c.weight_decay_obj, amsgrad=c.amsgrad, warmup=c.warmup,
-#                 d_model=c.d_model)
 
 
 @option(OptimizerConfigs.optimizer, 'AdamWarmupCosineDecay')
