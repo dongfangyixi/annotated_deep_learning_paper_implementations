@@ -18,7 +18,7 @@ from torch import nn
 from labml import experiment
 from labml.configs import option
 from labml_helpers.module import Module
-from labml_nn.experiments.nlp_classification import NLPClassificationConfigs
+from labml_nn.experiments.nlp_entailment import NLPClassificationConfigs
 from labml_nn.transformers import Encoder
 from labml_nn.transformers import TransformerConfigs
 from labml_nn.optimizers.configs import OptimizerConfigs
@@ -136,7 +136,6 @@ def main():
     experiment.configs(conf, {
         # Use world level tokenizer
         'tokenizer': 'spacy_english',
-        'text': 'snli',
         # Train for $32$ epochs
         'epochs': 32,
         'batch_size': 16,

@@ -15,6 +15,7 @@ import torch
 import torchtext
 from torch import nn
 from torch.utils.data import DataLoader
+from torch.utils import data
 from torchtext.vocab import Vocab
 
 from labml import lab, tracker, monit
@@ -26,7 +27,7 @@ from labml_helpers.train_valid import TrainValidConfigs, hook_model_outputs, Bat
 from labml_nn.optimizers.configs import OptimizerConfigs
 
 
-class NLPEntailmentConfigs(TrainValidConfigs):
+class NLPClassificationConfigs(TrainValidConfigs):
     """
     <a id="NLPClassificationConfigs">
     ## Trainer configurations
@@ -48,11 +49,11 @@ class NLPEntailmentConfigs(TrainValidConfigs):
     # Length of the sequence, or context size
     seq_len: int = 512
     # Vocabulary
-    vocab: Vocab = 'ag_news'
+    vocab: Vocab = 'snli'
     # Number of token in vocabulary
     n_tokens: int
     # Number of classes
-    n_classes: int = 'ag_news'
+    n_classes: int = 'snli'
     # Tokenizer
     tokenizer: Callable = 'character'
 
@@ -69,13 +70,13 @@ class NLPEntailmentConfigs(TrainValidConfigs):
     grad_norm_clip: float = 1.0
 
     # Training data loader
-    train_loader: DataLoader = 'text_classification'
+    train_loader: DataLoader = 'snli'
     # Validation data loader
-    valid_loader: DataLoader = 'text_classification'
-
-    # test data loader
-
-    test_loader: DataLoader = "test_classification"
+    valid_loader: DataLoader = 'snli'
+    #
+    # # test data loader
+    #
+    # test_loader: DataLoader = "test_classification"
 
     def init(self):
         """
@@ -313,8 +314,7 @@ def ag_news(c: NLPClassificationConfigs):
 @option([NLPClassificationConfigs.n_classes,
          NLPClassificationConfigs.vocab,
          NLPClassificationConfigs.train_loader,
-         NLPClassificationConfigs.valid_loader,
-         NLPClassificationConfigs.test_loader,])
+         NLPClassificationConfigs.valid_loader])
 def snli(c: NLPClassificationConfigs):
     """
     ### AG News dataset
@@ -322,10 +322,11 @@ def snli(c: NLPClassificationConfigs):
     This loads the AG News dataset and the set the values for
      `n_classes', `vocab`, `train_loader`, and `valid_loader`.
     """
-
+    TEXT = data.Field(lower=True, include_lengths=True, batch_first=True)
+    LABEL = data.Field(sequential=False)
     # Get training and validation datasets
     print("data saved at: ", str(lab.get_data_path() / 'snli'))
-    train, valid = torchtext.datasets.SNLI(root=str(lab.get_data_path() / 'snli'), split=('train', 'test'))
+    train, valid, valid = torchtext.datasets.SNLI(root=str(lab.get_data_path() / 'snli')).split(TEXT, LABEL)
 
     # Load data to memory
     with monit.section('Load data'):
