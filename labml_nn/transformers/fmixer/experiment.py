@@ -158,24 +158,25 @@ def main():
         'optimizer.optimizer': 'Noam',
         'optimizer.learning_rate': 1e-3,
     })
-    print("model: ", conf.model)
-    c = OptimizerConfigs()
-    para_list = []
-    for i in range(6):
-        para_list.append({'params': conf.model.encoder.layers[i].feed_forward.parameters()})
-        para_list.append({'params': conf.model.encoder.layers[i].self_attn.parameters(), 'lr': 1e-8})
-        para_list.append({'params': conf.model.encoder.layers[i].norm_self_attn.parameters()})
-        para_list.append({'params': conf.model.encoder.layers[i].norm_ff.parameters()})
-    para_list.append({'params': conf.model.src_embed.parameters()})
-    para_list.append({'params': conf.model.encoder.norm.parameters()})
-    para_list.append({'params': conf.model.generator.parameters()})
-    optimizer = Noam(params=para_list,
-                     lr=1., betas=c.betas, eps=c.eps,
-                     weight_decay=c.weight_decay_obj, amsgrad=c.amsgrad, warmup=c.warmup,
-                     d_model=512)
 
-    conf.optimizer = optimizer
-    print("optimizer: ", conf.optimizer)
+    # print("model: ", conf.model)
+    # c = OptimizerConfigs()
+    # para_list = []
+    # for i in range(6):
+    #     para_list.append({'params': conf.model.encoder.layers[i].feed_forward.parameters()})
+    #     para_list.append({'params': conf.model.encoder.layers[i].self_attn.parameters(), 'lr': 1e-8})
+    #     para_list.append({'params': conf.model.encoder.layers[i].norm_self_attn.parameters()})
+    #     para_list.append({'params': conf.model.encoder.layers[i].norm_ff.parameters()})
+    # para_list.append({'params': conf.model.src_embed.parameters()})
+    # para_list.append({'params': conf.model.encoder.norm.parameters()})
+    # para_list.append({'params': conf.model.generator.parameters()})
+    # optimizer = Noam(params=para_list,
+    #                  lr=1., betas=c.betas, eps=c.eps,
+    #                  weight_decay=c.weight_decay_obj, amsgrad=c.amsgrad, warmup=c.warmup,
+    #                  d_model=512)
+    #
+    # conf.optimizer = optimizer
+    # print("optimizer: ", conf.optimizer)
 
     # exit(0)
     # Set models for saving and loading
