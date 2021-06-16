@@ -26,7 +26,7 @@ from labml_helpers.train_valid import TrainValidConfigs, hook_model_outputs, Bat
 from labml_nn.optimizers.configs import OptimizerConfigs
 
 
-class NLPClassificationConfigs(TrainValidConfigs):
+class NLPEntailmentConfigs(TrainValidConfigs):
     """
     <a id="NLPClassificationConfigs">
     ## Trainer configurations
@@ -72,6 +72,10 @@ class NLPClassificationConfigs(TrainValidConfigs):
     train_loader: DataLoader = 'text_classification'
     # Validation data loader
     valid_loader: DataLoader = 'text_classification'
+
+    # test data loader
+
+    test_loader: DataLoader = "test_classification"
 
     def init(self):
         """
@@ -303,11 +307,15 @@ def ag_news(c: NLPClassificationConfigs):
     return 4, vocab, train_loader, valid_loader
 
 
+#'SNLI'
+
+
 @option([NLPClassificationConfigs.n_classes,
          NLPClassificationConfigs.vocab,
          NLPClassificationConfigs.train_loader,
-         NLPClassificationConfigs.valid_loader])
-def dbpedia(c: NLPClassificationConfigs):
+         NLPClassificationConfigs.valid_loader,
+         NLPClassificationConfigs.test_loader,])
+def snli(c: NLPClassificationConfigs):
     """
     ### AG News dataset
 
@@ -316,7 +324,8 @@ def dbpedia(c: NLPClassificationConfigs):
     """
 
     # Get training and validation datasets
-    train, valid = torchtext.datasets.DBpedia(root=str(lab.get_data_path() / 'DBpedia'), split=('train', 'test'))
+    print("data saved at: ", str(lab.get_data_path() / 'snli'))
+    train, valid = torchtext.datasets.SNLI(root=str(lab.get_data_path() / 'snli'), split=('train', 'test'))
 
     # Load data to memory
     with monit.section('Load data'):
@@ -347,5 +356,4 @@ def dbpedia(c: NLPClassificationConfigs):
                               collate_fn=CollateFunc(tokenizer, vocab, c.seq_len, len(vocab), len(vocab) + 1))
 
     # Return `n_classes', `vocab`, `train_loader`, and `valid_loader`
-    return 14, vocab, train_loader, valid_loader
-
+    return 4, vocab, train_loader, valid_loader

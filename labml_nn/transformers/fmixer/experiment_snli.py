@@ -125,10 +125,9 @@ def _noam_optimizer(c: OptimizerConfigs):
                 weight_decay=c.weight_decay_obj, amsgrad=c.amsgrad, warmup=c.warmup,
                 d_model=c.d_model)
 
-
-def main(tokenizer, dataset):
+def main():
     # Create experiment
-    experiment.create(name="fmixer")
+    experiment.create(name="fnet")
     # Create configs
     conf = Configs()
 
@@ -136,11 +135,8 @@ def main(tokenizer, dataset):
 
     experiment.configs(conf, {
         # Use world level tokenizer
-        'tokenizer': tokenizer,
-        'train_loader': dataset,
-        'valid_loader': dataset,
-        'vocab': dataset,
-        'n_classes': dataset,
+        'tokenizer': 'spacy_english',
+        'text': 'snli',
         # Train for $32$ epochs
         'epochs': 32,
         'batch_size': 16,
@@ -192,8 +188,6 @@ def main(tokenizer, dataset):
         conf.run()
 
 
+#
 if __name__ == '__main__':
-    import sys  # python experiment.py spacy_english dbpedia
-    tokenizer = sys.argv[1]
-    text = sys.argv[2]
-    main(tokenizer, text)
+    main()
