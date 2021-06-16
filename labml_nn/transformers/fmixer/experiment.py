@@ -163,7 +163,7 @@ def main():
     para_list = []
     for i in range(6):
         para_list.append({'params': conf.model.encoder.layers[i].feed_forward.parameters()})
-        para_list.append({'params': conf.model.encoder.layers[i].self_attn.parameters(), 'lr': 1e-3})
+        para_list.append({'params': conf.model.encoder.layers[i].self_attn.parameters(), 'lr': 1e-8})
         para_list.append({'params': conf.model.encoder.layers[i].norm_self_attn.parameters()})
         para_list.append({'params': conf.model.encoder.layers[i].norm_ff.parameters()})
     para_list.append({'params': conf.model.src_embed.parameters()})
