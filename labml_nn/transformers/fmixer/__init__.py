@@ -171,7 +171,7 @@ class MIXER(nn.Module):
         # x = torch.fft.ifft(x)
         # print("x", x.shape)
         w = self.hidden_w.weight.unsqueeze(0).expand(B, C, N)
-        print("hiddel w", self.hidden_w.weight[:10, :1])
+        # print("hiddel w", self.hidden_w.weight[:10, :1])
 
         # print("w", w.shape)
         xw = x.mul(w)
