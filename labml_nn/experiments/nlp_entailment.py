@@ -15,7 +15,7 @@ import torch
 import torchtext
 from torch import nn
 from torch.utils.data import DataLoader
-from torchtext.data.field import Field
+from torchtext.legacy.data.field import Field
 from torchtext.vocab import Vocab
 
 from labml import lab, tracker, monit
@@ -326,7 +326,7 @@ def snli(c: NLPClassificationConfigs):
     LABEL = Field(sequential=False)
     # Get training and validation datasets
     print("data saved at: ", str(lab.get_data_path() / 'snli'))
-    train, valid, valid = torchtext.datasets.SNLI(root=str(lab.get_data_path() / 'snli')).split(TEXT, LABEL)
+    train, valid, valid = torchtext.legacy.adatasets.SNLI(root=str(lab.get_data_path() / 'snli')).split(TEXT, LABEL)
 
     # Load data to memory
     with monit.section('Load data'):
