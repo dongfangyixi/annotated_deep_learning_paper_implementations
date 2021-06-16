@@ -158,6 +158,7 @@ class MIXER(nn.Module):
         self.hidden_w = nn.Linear(512, 512)
         self.pfft_token_w = nn.Linear(1, 512)
         self.pfft_hidden_w = nn.Linear(1, 512)
+        self.pfft_token_w.requires_grad_(False)
 
     def channel_mixer(self, x):
         """
@@ -217,13 +218,13 @@ class MIXER(nn.Module):
         B, C, N = x.shape
         # print("x ", x.shape)
         # x = x.permute(0, 2, 1).contiguous()
-        x = torch.fft.fft(x)
+        x = torch.fft.ifft(x)
         # print("x", x.shape)
-        w = torch.fft.ifft(self.pfft_token_w.weight).unsqueeze(0).expand(B, C, N)
+        w = torch.fft.fft(self.pfft_token_w.weight).unsqueeze(0).expand(B, C, N)
         # print("w", w.shape)
         xw = x.mul(w)
         # print("xw: ", xw.shape)
-        # xw = torch.fft.fft(xw).real
+        xw = torch.fft.fft(xw).real
         # x = xw.permute(0, 2, 1).contiguous()
         x = xw.view(B, C, N)
         x = x.permute((2, 0, 1)).contiguous()
@@ -236,12 +237,12 @@ class MIXER(nn.Module):
         assert mask is None
         x = query
         # channel mixer fft
-        # x = torch.fft.fft(x, dim=2)
+        x = torch.fft.fft(x, dim=2)
         # Apply the Fourier transform along the sequence dimension
         # $$\mathcal{F}_\text{seq} \big(\mathcal{F}_\text{hidden} (x) \big)$$
         # token mixer fft
         # x = torch.fft.fft(x, dim=0)
-        x = self.channel_mixer(x)
+        # x = self.channel_mixer(x)
         x = self.pfft_token_mixer(x)
         # x = torch.fft.fft(x, dim=0).real
 
