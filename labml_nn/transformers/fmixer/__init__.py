@@ -163,23 +163,7 @@ class MIXER(nn.Module):
         :param x:
         :return:
         """
-        x = x.permute((1, 0, 2)).contiguous()
-        # print("x, ", x.shape)
-        B, N, C = x.shape
-        # print("x ", x.shape)
-        # x = x.permute(0, 2, 1).contiguous()
-        # x = torch.fft.ifft(x)
-        # print("x", x.shape)
-        w = self.hidden_w.weight.unsqueeze(0).expand(B, C, N)
-        # print("hiddel w", self.hidden_w.weight[:10, :1])
-
-        # print("w", w.shape)
-        xw = x.bmm(w)
-        # print("xw: ", xw.shape)
-        # xw = torch.fft.fft(xw)
-        # x = xw.permute(0, 2, 1).contiguous()
-        x = xw.view(B, N, C)
-        x = x.permute((1, 0, 2)).contiguous()
+        x = self.hidden_w(x)
         return x
 
     def token_mixer(self, x):
@@ -188,23 +172,9 @@ class MIXER(nn.Module):
         :param x:
         :return:
         """
-
-        # toke mixer
-        x = x.permute((1, 2, 0)).contiguous()
-        # print("x, ", x.shape)
-        B, C, N = x.shape
-        # print("x ", x.shape)
-        # x = x.permute(0, 2, 1).contiguous()
-        # x = torch.fft.ifft(x)
-        # print("x", x.shape)
-        w = self.token_w.weight.unsqueeze(0).expand(B, C, N)
-        # print("w", w.shape)
-        xw = x.bmm(w)
-        # print("xw: ", xw.shape)
-        # xw = torch.fft.fft(xw).real
-        # x = xw.permute(0, 2, 1).contiguous()
-        x = xw.view(B, C, N)
-        x = x.permute((2, 0, 1)).contiguous()
+        x = x.permute((2, 1, 0))
+        x = self.token_w(x)
+        x = x.permute((2, 1, 0))
         return x
 
     def forward(self, query: torch.Tensor, key: torch.Tensor, value: torch.Tensor, mask: Optional[torch.Tensor] = None):
