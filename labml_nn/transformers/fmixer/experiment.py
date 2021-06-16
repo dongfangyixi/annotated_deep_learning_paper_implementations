@@ -126,7 +126,7 @@ def _noam_optimizer(c: OptimizerConfigs):
                 d_model=c.d_model)
 
 
-def main(tokenizer, dataset):
+def main(tokenizer, dataset, batch_size):
     # Create experiment
     experiment.create(name="fmixer")
     # Create configs
@@ -143,7 +143,7 @@ def main(tokenizer, dataset):
         'n_classes': dataset,
         # Train for $32$ epochs
         'epochs': 32,
-        'batch_size': 16,
+        'batch_size': batch_size,
         # Switch between training and validation for $10$ times
         # per epoch
         'inner_iterations': 10,
@@ -193,7 +193,8 @@ def main(tokenizer, dataset):
 
 
 if __name__ == '__main__':
-    import sys  # python experiment.py spacy_english dbpedia
+    import sys  # python experiment.py spacy_english dbpedia 32
     tokenizer = sys.argv[1]
     text = sys.argv[2]
-    main(tokenizer, text)
+    batch_size = int(sys.argv[3])
+    main(tokenizer, text, batch_size)
