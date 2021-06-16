@@ -177,6 +177,7 @@ class MIXER(nn.Module):
         """
         x = x.permute((2, 1, 0))
         x = self.token_w(x)
+        x = torch.softmax(x, dim=-1)
         x = x.permute((2, 1, 0))
         return x
 
@@ -238,13 +239,14 @@ class MIXER(nn.Module):
         assert mask is None
         x = query
         # channel mixer fft
-        x = torch.fft.fft(x, dim=2)
+        # x = torch.fft.fft(x, dim=2)
         # Apply the Fourier transform along the sequence dimension
         # $$\mathcal{F}_\text{seq} \big(\mathcal{F}_\text{hidden} (x) \big)$$
         # token mixer fft
         # x = torch.fft.fft(x, dim=0)
-        # x = self.channel_mixer(x)
-        x = self.pfft_token_mixer(x)
+        x = self.token_mixer(x)
+        x = self.channel_mixer(x)
+        # x = self.pfft_token_mixer(x)
         # x = torch.fft.fft(x, dim=0).real
 
         return x
