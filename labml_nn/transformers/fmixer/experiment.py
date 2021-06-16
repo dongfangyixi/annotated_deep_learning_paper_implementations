@@ -151,12 +151,12 @@ def main():
     print("optimizer: ", conf.optimizer)
     exit(0)
     # Set models for saving and loading
-    experiment.add_pytorch_models({'model': conf.model})
-
-    # Start the experiment
-    with experiment.start():
-        # Run training
-        conf.run()
+    # experiment.add_pytorch_models({'model': conf.model})
+    #
+    # # Start the experiment
+    # with experiment.start():
+    #     # Run training
+    #     conf.run()
 
 
 #
