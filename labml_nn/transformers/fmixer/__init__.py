@@ -167,7 +167,7 @@ class MIXER(nn.Module):
         :return:
         """
         x = self.hidden_w(x)
-        x = torch.softmax(x, dim=-1)
+        # x = torch.softmax(x, dim=-1)
         return x
 
     def token_mixer(self, x):
