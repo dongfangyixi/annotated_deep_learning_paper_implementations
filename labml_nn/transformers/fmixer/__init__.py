@@ -98,7 +98,7 @@ class MIXFFT(nn.Module):
         x = torch.fft.ifft(x)
         # print("x", x.shape)
         w = torch.fft.fft(self.hidden_w.weight).unsqueeze(0).expand(B, C, N)
-        print(w, self.hidden_w.weight[:10, :])
+        print("hiddel w", self.hidden_w.weight[:10, :])
 
         # print("w", w.shape)
         xw = x.mul(w)
