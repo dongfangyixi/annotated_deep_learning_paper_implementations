@@ -158,7 +158,7 @@ class MIXER(nn.Module):
         self.hidden_w = nn.Linear(512, 512)
         self.pfft_token_w = nn.Linear(1, 512)
         self.pfft_hidden_w = nn.Linear(1, 512)
-        # self.pfft_token_w.requires_grad_(False)
+        self.pfft_token_w.requires_grad_(False)
 
     def channel_mixer(self, x):
         """
