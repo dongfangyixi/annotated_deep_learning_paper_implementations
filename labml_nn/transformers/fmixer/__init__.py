@@ -242,7 +242,8 @@ class MIXER(nn.Module):
         # token mixer fft
         # x = torch.fft.fft(x, dim=0)
         x = self.channel_mixer(x)
-        x = self.pfft_token_mixer(x)
+        # x = self.pfft_token_mixer(x)
+        x = torch.fft.fft(x, dim=0)
 
         return x
 
