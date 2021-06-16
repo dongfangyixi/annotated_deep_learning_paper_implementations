@@ -182,7 +182,7 @@ def spacy_english():
 
     """
     from torchtext.data import get_tokenizer
-    return get_tokenizer(tokenizer="spacy", language="en")
+    return get_tokenizer(tokenizer="spacy", language="en_core_web_sm")
 
 
 
