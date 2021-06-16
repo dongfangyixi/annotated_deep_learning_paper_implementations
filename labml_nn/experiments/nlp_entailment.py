@@ -327,13 +327,13 @@ def snli(c: NLPClassificationConfigs):
     # Get training and validation datasets
     print("data saved at: ", str(lab.get_data_path() / 'snli'))
     train, valid, valid = torchtext.legacy.datasets.SNLI.splits(TEXT, LABEL)
-
+    print("train: ", train)
     # Load data to memory
-    with monit.section('Load data'):
-        from labml_nn.utils import MapStyleDataset
-
-        # Create [map-style datasets](../utils.html#map_style_dataset)
-        train, valid = MapStyleDataset(train), MapStyleDataset(valid)
+    # with monit.section('Load data'):
+    #     from labml_nn.utils import MapStyleDataset
+    #
+    #     # Create [map-style datasets](../utils.html#map_style_dataset)
+    #     train, valid = MapStyleDataset(train), MapStyleDataset(valid)
 
     # Get tokenizer
     tokenizer = c.tokenizer
