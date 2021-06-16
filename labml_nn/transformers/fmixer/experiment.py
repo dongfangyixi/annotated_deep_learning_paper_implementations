@@ -167,7 +167,7 @@ def main():
         para_list.append({'params': conf.model.encoder.layers[i].norm_self_attn.parameters()})
         para_list.append({'params': conf.model.encoder.layers[i].norm_ff.parameters()})
     para_list.append({'params': conf.model.src_embed.parameters()})
-    para_list.append({'params': conf.model.norm.parameters()})
+    para_list.append({'params': conf.model.encoder.norm.parameters()})
     para_list.append({'params': conf.model.generator.parameters()})
     optimizer = Noam(params=para_list,
                      lr=1., betas=c.betas, eps=c.eps,
