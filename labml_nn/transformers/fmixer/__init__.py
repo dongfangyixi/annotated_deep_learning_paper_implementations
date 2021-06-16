@@ -174,7 +174,7 @@ class MIXER(nn.Module):
         # print("hiddel w", self.hidden_w.weight[:10, :1])
 
         # print("w", w.shape)
-        xw = x.mul(w)
+        xw = x.bmm(w)
         # print("xw: ", xw.shape)
         # xw = torch.fft.fft(xw)
         # x = xw.permute(0, 2, 1).contiguous()
@@ -199,7 +199,7 @@ class MIXER(nn.Module):
         # print("x", x.shape)
         w = self.token_w.weight.unsqueeze(0).expand(B, C, N)
         # print("w", w.shape)
-        xw = x.mul(w)
+        xw = x.bmm(w)
         # print("xw: ", xw.shape)
         # xw = torch.fft.fft(xw).real
         # x = xw.permute(0, 2, 1).contiguous()
