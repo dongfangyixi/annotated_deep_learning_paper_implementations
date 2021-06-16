@@ -225,7 +225,7 @@ class MIXER(nn.Module):
         # print("w", w.shape)
         xw = x.mul(w)
         # print("xw: ", xw.shape)
-        # xw = torch.fft.fft(xw).real
+        xw = torch.fft.fft(xw).real
         # x = xw.permute(0, 2, 1).contiguous()
         x = xw.view(B, C, N)
         x = x.permute((2, 0, 1)).contiguous()
