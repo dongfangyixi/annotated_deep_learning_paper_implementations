@@ -87,15 +87,6 @@ def _transformer_configs(c: Configs):
     #
     return conf
 
-@option(OptimizerConfigs.optimizer, 'Noamwlr')
-def _noam_optimizer(c: OptimizerConfigs):
-    from labml_nn.optimizers.noam import Noam
-    print("model: ", c)
-    exit(0)
-    return Noam(c.parameters,
-                lr=c.learning_rate, betas=c.betas, eps=c.eps,
-                weight_decay=c.weight_decay_obj, amsgrad=c.amsgrad, warmup=c.warmup,
-                d_model=c.d_model)
 
 @option(TransformerConfigs.encoder_attn)
 def fnet_mix():
