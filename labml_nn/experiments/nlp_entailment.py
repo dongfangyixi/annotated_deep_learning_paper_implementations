@@ -15,7 +15,7 @@ import torch
 import torchtext
 from torch import nn
 from torch.utils.data import DataLoader
-from torch.utils import data
+from torchtext import data
 from torchtext.vocab import Vocab
 
 from labml import lab, tracker, monit
@@ -187,7 +187,7 @@ def spacy_english():
 
     """
     from torchtext.data import get_tokenizer
-    return get_tokenizer(tokenizer="spacy", language="en")
+    return get_tokenizer(tokenizer="spacy", language="en_core_web_sm")
 
 
 
