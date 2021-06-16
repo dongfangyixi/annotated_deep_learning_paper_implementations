@@ -326,7 +326,7 @@ def snli(c: NLPClassificationConfigs):
     LABEL = Field(sequential=False)
     # Get training and validation datasets
     print("data saved at: ", str(lab.get_data_path() / 'snli'))
-    train, valid, valid = torchtext.legacy.datasets.SNLI(root=str(lab.get_data_path() / 'snli')).split(TEXT, LABEL)
+    train, valid, valid = torchtext.legacy.datasets.SNLI.split(TEXT, LABEL)
 
     # Load data to memory
     with monit.section('Load data'):
