@@ -220,12 +220,12 @@ class MIXER(nn.Module):
         # x = x.permute(0, 2, 1).contiguous()
         # x = torch.fft.ifft(x)
         # print("x", x.shape)
-        w = torch.fft.fft(self.pfft_token_w.weight).unsqueeze(0).expand(B, C, N)
+        w = torch.fft.fft(self.pfft_token_w.weight).unsqueeze(0).expand(B, C, N).real
         # w = self.pfft_token_w.weight.unsqueeze(0).expand(B, C, N)
         # print("w", w.shape)
         xw = x.mul(w)
         # print("xw: ", xw.shape)
-        xw = torch.fft.fft(xw).real
+        # xw = torch.fft.fft(xw).real
         # x = xw.permute(0, 2, 1).contiguous()
         x = xw.view(B, C, N)
         x = x.permute((2, 0, 1)).contiguous()
