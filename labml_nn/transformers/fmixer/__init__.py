@@ -182,7 +182,7 @@ class MIXER(nn.Module):
         """
         x = x.permute((2, 1, 0))
         x = self.token_w(x)
-        x = self.token_norm(x)
+        # x = self.token_norm(x)
         x = x.permute((2, 1, 0))
         return x
 
@@ -249,7 +249,7 @@ class MIXER(nn.Module):
         # $$\mathcal{F}_\text{seq} \big(\mathcal{F}_\text{hidden} (x) \big)$$
         # token mixer fft
         # x = torch.fft.fft(x, dim=0)
-        x = self.channel_mixer(x)
+        # x = self.channel_mixer(x)
 
         x = self.token_mixer(x)
         # x = self.pfft_token_mixer(x)
