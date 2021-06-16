@@ -85,6 +85,7 @@ def _transformer_configs(c: Configs):
     conf.n_tgt_vocab = c.n_tokens
     print("model: ", c.model)
     print("optimizer: ", c.optimizer)
+    exit(0)
     #
     return conf
 
