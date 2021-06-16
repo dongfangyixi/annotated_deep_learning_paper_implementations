@@ -15,7 +15,7 @@ import torch
 import torchtext
 from torch import nn
 from torch.utils.data import DataLoader
-from torchtext.legacy.data.field import Field
+from torchtext.data.field import Field
 from torchtext.vocab import Vocab
 
 from labml import lab, tracker, monit
