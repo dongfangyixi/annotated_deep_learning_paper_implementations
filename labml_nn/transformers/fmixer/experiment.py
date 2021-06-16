@@ -83,9 +83,7 @@ def _transformer_configs(c: Configs):
     # Set the vocabulary sizes for embeddings and generating logits
     conf.n_src_vocab = c.n_tokens
     conf.n_tgt_vocab = c.n_tokens
-    print("model: ", c.model)
-    print("optimizer: ", c.optimizer)
-    exit(0)
+
     #
     return conf
 
@@ -121,6 +119,7 @@ def main():
     experiment.create(name="fnet")
     # Create configs
     conf = Configs()
+
     # Override configurations
     experiment.configs(conf, {
         # Use world level tokenizer
@@ -147,7 +146,9 @@ def main():
         'optimizer.optimizer': 'Noam',
         'optimizer.learning_rate': 1.
     })
-
+    print("model: ", conf.model)
+    print("optimizer: ", conf.optimizer)
+    exit(0)
     # Set models for saving and loading
     experiment.add_pytorch_models({'model': conf.model})
 
