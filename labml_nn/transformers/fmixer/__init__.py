@@ -223,7 +223,7 @@ class MIXER(nn.Module):
         w = torch.fft.fft(self.pfft_token_w.weight).unsqueeze(0).expand(B, C, N).real
         # w = self.pfft_token_w.weight.unsqueeze(0).expand(B, C, N)
         # print("w", w.shape)
-        xw = x.mul(w)
+        xw = x.mul(w).real
         # print("xw: ", xw.shape)
         # xw = torch.fft.fft(xw).real
         # x = xw.permute(0, 2, 1).contiguous()
