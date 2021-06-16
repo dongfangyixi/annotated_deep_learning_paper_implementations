@@ -159,7 +159,7 @@ def main():
         'optimizer.learning_rate': 1.,
     })
 
-    # print("model: ", conf.model)
+    print("model: ", conf.model)
     # c = OptimizerConfigs()
     # para_list = []
     # for i in range(6):
