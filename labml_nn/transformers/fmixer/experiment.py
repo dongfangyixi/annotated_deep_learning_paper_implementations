@@ -22,6 +22,7 @@ from labml_nn.experiments.nlp_classification import NLPClassificationConfigs
 from labml_nn.transformers import Encoder
 from labml_nn.transformers import TransformerConfigs
 from labml_nn.optimizers.configs import OptimizerConfigs
+from labml_nn.optimizers.noam import Noam
 
 
 class TransformerClassifier(nn.Module):
@@ -114,6 +115,16 @@ def _model(c: Configs):
     return m
 
 
+
+@option(OptimizerConfigs.optimizer, 'Noamwlr')
+def _noam_optimizer(c: OptimizerConfigs):
+    from labml_nn.optimizers.noam import Noam
+
+    return Noam(c.parameters,
+                lr=c.learning_rate, betas=c.betas, eps=c.eps,
+                weight_decay=c.weight_decay_obj, amsgrad=c.amsgrad, warmup=c.warmup,
+                d_model=c.d_model)
+
 def main():
     # Create experiment
     experiment.create(name="fnet")
@@ -149,7 +160,14 @@ def main():
     })
     print("model: ", conf.model)
     print("optimizer: ", conf.optimizer)
-    exit(0)
+    c = OptimizerConfigs()
+    optimizer = Noam(params=[{'params': conf.model.parameters(), 'lr': 1.},
+                {'params': conf.model.encoder.layers[0].self_attn.parameters(), 'lr': 1e-3}],
+                     lr=c.learning_rate, betas=c.betas, eps=c.eps,
+                     weight_decay=c.weight_decay_obj, amsgrad=c.amsgrad, warmup=c.warmup,
+                     d_model=c.d_model)
+    conf.optimizer = optimizer
+    # exit(0)
     # Set models for saving and loading
     # experiment.add_pytorch_models({'model': conf.model})
     #
