@@ -48,6 +48,7 @@ class Noam(AMSGrad):
 
         defaults = {} if defaults is None else defaults
         defaults.update(dict(warmup=warmup))
+        print("params: ", params)
         super().__init__(params, lr, betas, eps, weight_decay, optimized_update, amsgrad, defaults)
         self.d_model = d_model
 
