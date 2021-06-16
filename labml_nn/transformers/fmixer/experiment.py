@@ -152,7 +152,7 @@ def main():
 
         # Use [FNet](index.html) instead of self-a
         # ttention
-        # 'transformer.encoder_attn': 'fnet_mix',
+        'transformer.encoder_attn': 'fnet_mix',
 
         # Use [Noam optimizer](../../optimizers/noam.html)
         'optimizer.optimizer': 'Noam',
