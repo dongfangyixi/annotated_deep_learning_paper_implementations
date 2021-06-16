@@ -217,13 +217,13 @@ class MIXER(nn.Module):
         B, C, N = x.shape
         # print("x ", x.shape)
         # x = x.permute(0, 2, 1).contiguous()
-        x = torch.fft.ifft(x)
+        x = torch.fft.fft(x)
         # print("x", x.shape)
-        w = torch.fft.fft(self.pfft_token_w.weight).unsqueeze(0).expand(B, C, N)
+        w = torch.fft.ifft(self.pfft_token_w.weight).unsqueeze(0).expand(B, C, N)
         # print("w", w.shape)
         xw = x.mul(w)
         # print("xw: ", xw.shape)
-        xw = torch.fft.fft(xw).real
+        # xw = torch.fft.fft(xw).real
         # x = xw.permute(0, 2, 1).contiguous()
         x = xw.view(B, C, N)
         x = x.permute((2, 0, 1)).contiguous()
@@ -242,8 +242,8 @@ class MIXER(nn.Module):
         # token mixer fft
         # x = torch.fft.fft(x, dim=0)
         x = self.channel_mixer(x)
-        # x = self.pfft_token_mixer(x)
-        x = torch.fft.fft(x, dim=0).real
+        x = self.pfft_token_mixer(x)
+        # x = torch.fft.fft(x, dim=0).real
 
         return x
 
