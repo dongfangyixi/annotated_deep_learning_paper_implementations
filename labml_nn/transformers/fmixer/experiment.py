@@ -159,14 +159,16 @@ def main():
         'optimizer.learning_rate': 1.
     })
     print("model: ", conf.model)
-    print("optimizer: ", conf.optimizer)
     c = OptimizerConfigs()
     optimizer = Noam(params=[{'params': conf.model.parameters(), 'lr': 1.},
                 {'params': conf.model.encoder.layers[0].self_attn.parameters(), 'lr': 1e-3}],
-                     lr=c.learning_rate, betas=c.betas, eps=c.eps,
+                     lr=1., betas=c.betas, eps=c.eps,
                      weight_decay=c.weight_decay_obj, amsgrad=c.amsgrad, warmup=c.warmup,
-                     d_model=c.d_model)
+                     d_model=512)
+
     conf.optimizer = optimizer
+    print("optimizer: ", conf.optimizer)
+
     # exit(0)
     # Set models for saving and loading
     # experiment.add_pytorch_models({'model': conf.model})
