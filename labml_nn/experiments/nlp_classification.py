@@ -316,6 +316,7 @@ def dbpedia(c: NLPClassificationConfigs):
     """
 
     # Get training and validation datasets
+    print("saving root: ", str(lab.get_data_path() / 'DBpedia'))
     train, valid = torchtext.datasets.DBpedia(root=str(lab.get_data_path() / 'DBpedia'), split=('train', 'test'))
 
     # Load data to memory
