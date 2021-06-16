@@ -21,6 +21,7 @@ from labml_helpers.module import Module
 from labml_nn.experiments.nlp_classification import NLPClassificationConfigs
 from labml_nn.transformers import Encoder
 from labml_nn.transformers import TransformerConfigs
+from labml_nn.optimizers.configs import OptimizerConfigs
 
 
 class TransformerClassifier(nn.Module):
@@ -86,6 +87,14 @@ def _transformer_configs(c: Configs):
     #
     return conf
 
+@option(OptimizerConfigs.optimizer, 'Noamwlr')
+def _noam_optimizer(c: OptimizerConfigs):
+    from labml_nn.optimizers.noam import Noam
+    print("model: ", c)
+    return Noam(c.parameters,
+                lr=c.learning_rate, betas=c.betas, eps=c.eps,
+                weight_decay=c.weight_decay_obj, amsgrad=c.amsgrad, warmup=c.warmup,
+                d_model=c.d_model)
 
 @option(TransformerConfigs.encoder_attn)
 def fnet_mix():
@@ -141,7 +150,7 @@ def main():
         'transformer.encoder_attn': 'fnet_mix',
 
         # Use [Noam optimizer](../../optimizers/noam.html)
-        'optimizer.optimizer': 'Noam',
+        'optimizer.optimizer': 'Noamwlr',
         'optimizer.learning_rate': 1.
     })
 
