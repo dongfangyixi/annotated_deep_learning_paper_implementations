@@ -158,6 +158,8 @@ class MIXER(nn.Module):
         self.hidden_w = nn.Linear(512, 512)
         self.pfft_token_w = nn.Linear(1, 512)
         self.pfft_hidden_w = nn.Linear(1, 512)
+        self.token_norm = nn.LayerNorm(normalized_shape=512)
+        self.hidden_norm = nn.LayerNorm(normalized_shape=512)
         # self.pfft_token_w.requires_grad_(False)
 
     def channel_mixer(self, x):
@@ -168,6 +170,7 @@ class MIXER(nn.Module):
         """
         x = self.hidden_w(x)
         # x = torch.softmax(x, dim=-1)
+        x = self.hidden_norm(x)
         return x
 
     def token_mixer(self, x):
@@ -178,7 +181,7 @@ class MIXER(nn.Module):
         """
         x = x.permute((2, 1, 0))
         x = self.token_w(x)
-
+        x = self.token_norm(x)
         x = x.permute((2, 1, 0))
         return x
 

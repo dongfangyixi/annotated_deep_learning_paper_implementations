@@ -156,7 +156,7 @@ def main():
 
         # Use [Noam optimizer](../../optimizers/noam.html)
         'optimizer.optimizer': 'Noam',
-        'optimizer.learning_rate': 1e-3,
+        'optimizer.learning_rate': 1.,
     })
 
     # print("model: ", conf.model)
