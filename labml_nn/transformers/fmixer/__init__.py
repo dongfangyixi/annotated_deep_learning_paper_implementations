@@ -158,7 +158,7 @@ class MIXER(nn.Module):
         self.hidden_w = nn.Linear(512, 512)
         self.pfft_token_w = nn.Linear(1, 512)
         self.pfft_hidden_w = nn.Linear(1, 512)
-        self.pfft_token_w.requires_grad_(False)
+        # self.pfft_token_w.requires_grad_(False)
 
     def channel_mixer(self, x):
         """
@@ -218,10 +218,10 @@ class MIXER(nn.Module):
         B, C, N = x.shape
         # print("x ", x.shape)
         # x = x.permute(0, 2, 1).contiguous()
-        x = torch.fft.fft(x).real
+        # x = torch.fft.ifft(x)
         # print("x", x.shape)
-        # w = torch.fft.fft(self.pfft_token_w.weight).unsqueeze(0).expand(B, C, N)
-        w = self.pfft_token_w.weight.unsqueeze(0).expand(B, C, N)
+        w = torch.fft.fft(self.pfft_token_w.weight).unsqueeze(0).expand(B, C, N)
+        # w = self.pfft_token_w.weight.unsqueeze(0).expand(B, C, N)
         # print("w", w.shape)
         xw = x.mul(w)
         # print("xw: ", xw.shape)
