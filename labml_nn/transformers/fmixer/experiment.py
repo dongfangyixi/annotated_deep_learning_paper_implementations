@@ -83,7 +83,8 @@ def _transformer_configs(c: Configs):
     # Set the vocabulary sizes for embeddings and generating logits
     conf.n_src_vocab = c.n_tokens
     conf.n_tgt_vocab = c.n_tokens
-
+    print("model: ", c.model)
+    print("optimizer: ", c.optimizer)
     #
     return conf
 
@@ -142,7 +143,7 @@ def main():
         'transformer.encoder_attn': 'fnet_mix',
 
         # Use [Noam optimizer](../../optimizers/noam.html)
-        'optimizer.optimizer': 'Noamwlr',
+        'optimizer.optimizer': 'Noam',
         'optimizer.learning_rate': 1.
     })
 
