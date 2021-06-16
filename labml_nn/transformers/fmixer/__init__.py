@@ -151,6 +151,79 @@ class MIXFFT(nn.Module):
         return x
 
 
+class MIXER(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.token_w = nn.Linear(512, 512)
+        self.hidden_w = nn.Linear(512, 512)
+
+    def channel_mixer(self, x):
+        """
+
+        :param x:
+        :return:
+        """
+        x = x.permute((1, 0, 2)).contiguous()
+        # print("x, ", x.shape)
+        B, N, C = x.shape
+        # print("x ", x.shape)
+        # x = x.permute(0, 2, 1).contiguous()
+        # x = torch.fft.ifft(x)
+        # print("x", x.shape)
+        w = self.hidden_w.weight.unsqueeze(0).expand(B, C, N)
+        print("hiddel w", self.hidden_w.weight[:10, :1])
+
+        # print("w", w.shape)
+        xw = x.mul(w)
+        # print("xw: ", xw.shape)
+        # xw = torch.fft.fft(xw)
+        # x = xw.permute(0, 2, 1).contiguous()
+        x = xw.view(B, N, C)
+        x = x.permute((1, 0, 2)).contiguous()
+        return x
+
+    def token_mixer(self, x):
+        """
+
+        :param x:
+        :return:
+        """
+
+        # toke mixer
+        x = x.permute((1, 2, 0)).contiguous()
+        # print("x, ", x.shape)
+        B, C, N = x.shape
+        # print("x ", x.shape)
+        # x = x.permute(0, 2, 1).contiguous()
+        # x = torch.fft.ifft(x)
+        # print("x", x.shape)
+        w = self.token_w.weight.unsqueeze(0).expand(B, C, N)
+        # print("w", w.shape)
+        xw = x.mul(w)
+        # print("xw: ", xw.shape)
+        # xw = torch.fft.fft(xw).real
+        # x = xw.permute(0, 2, 1).contiguous()
+        x = xw.view(B, C, N)
+        x = x.permute((2, 0, 1)).contiguous()
+        return x
+
+    def forward(self, query: torch.Tensor, key: torch.Tensor, value: torch.Tensor, mask: Optional[torch.Tensor] = None):
+        # $\text{query}$,$\text{key}$, and $\text{value}$ all should be equal to $x$ for token mixing
+        assert query is key and key is value
+        # Token mixing doesn't support masking. i.e. all tokens will see all other token embeddings.
+        assert mask is None
+        x = query
+        # channel mixer
+
+        # x = torch.fft.fft(x, dim=2)
+        # Apply the Fourier transform along the sequence dimension
+        # $$\mathcal{F}_\text{seq} \big(\mathcal{F}_\text{hidden} (x) \big)$$
+        # x = torch.fft.fft(x, dim=0)
+        x = self.channel_mixer(x)
+        x = self.token_mixer(x)
+        return x
+
+
 class FNetMix(nn.Module):
     """
     ## FNet - Mix tokens
